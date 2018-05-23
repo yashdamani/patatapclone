@@ -169,28 +169,30 @@
 		}
 
 		var circles = [];
+        var newCircle;
 
 		function onKeyDown(event) {
 			if(keyData[event.key]){
 				var maxPoint = new Point(view.size.width, view.size.height);
                 var randomPoint = Point.random();
                 var point = maxPoint * randomPoint;
-                var newCircle = new Path.Circle(point, 300)
+                newCircle = new Path.Circle(point, 300)
 				newCircle.fillColor = keyData[event.key].color;
 				keyData[event.key].sound.play();
 				circles.push(newCircle);
-
-                if(newCircle.area < 1)
-                {
-                    circles.remove(newCircle);
-                }
+                
 			}
 		}
         function onFrame(event){
 			for(var i = 0; i < circles.length; i++){
 				circles[i].fillColor.hue += 1;
 				circles[i].scale(.9);
-			}
+                if(newCircle.area < 1)
+                {
+                    circles[i].remove(newCircle);
+                    circles.splice(i, 1);
+                }
+            }
 		}
 	</script>
 </head>
